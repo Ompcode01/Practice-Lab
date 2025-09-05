@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-// Using lazy loading to avoid import errors for files that don't exist yet
 const routes = [
   {
     path: '/',
@@ -25,12 +24,75 @@ const routes = [
     }
   },
   {
-    path: '/content',
-    name: 'Content',
-    component: () => import('../views/ContentManagement.vue'),
+    path: '/content-management',
+    name: 'ContentManagement',
+    component: () => import('../components/Content.vue'),
     meta: {
       title: 'Content Management',
       description: 'Create and manage educational content'
+    }
+  },
+  {
+    path: '/categories',
+    name: 'Categories',
+    component: () => import('../components/Categories.vue'),
+    meta: {
+      title: 'Categories Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
+    }
+  },
+  {
+    path: '/subjects',
+    name: 'subjects',
+    component: () => import('../components/Subjects.vue'),
+    meta: {
+      title: 'subjects Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
+    }
+  },
+  {
+    path: '/roles',
+    name: 'roles',
+    component: () => import('../components/Roles.vue'),
+    meta: {
+      title: 'roles Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
+    }
+  },
+  {
+    path: '/chapters',
+    name: 'chapters',
+    component: () => import('../components/Chapters.vue'),
+    meta: {
+      title: 'chapters Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
+    }
+  },
+  {
+    path: '/content',
+    name: 'content',
+    component: () => import('../components/Content.vue'),
+    meta: {
+      title: 'content Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
+    }
+  },
+  {
+    path: '/answers',
+    name: 'answers',
+    component: () => import('../components/Answers.vue'),
+    meta: {
+      title: 'answers Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
+    }
+  },
+  {
+    path: '/llm_instructions',
+    name: 'llm_instructions',
+    component: () => import('../components/llm_instructions.vue'),
+    meta: {
+      title: 'llm_instructions Management',
+      description: 'Organize and structure your practice lab categories with advanced taxonomy management'
     }
   },
   {
@@ -51,7 +113,6 @@ const routes = [
       description: 'Configure your practice lab settings'
     }
   },
-  // Catch-all route for 404 pages
   {
     path: '/:pathMatch(.*)*',
     name: 'NotFound',
@@ -66,7 +127,6 @@ const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    // Always scroll to top when navigating to a new route
     if (savedPosition) {
       return savedPosition
     } else {
@@ -75,26 +135,21 @@ const router = createRouter({
   }
 })
 
-// Global navigation guards
 router.beforeEach((to, from, next) => {
-  // Update document title
   if (to.meta.title) {
     document.title = `${to.meta.title} | Practice Lab`
   }
-  
-  // Add loading class to body for transition effects
+
   document.body.classList.add('route-loading')
   
   next()
 })
 
 router.afterEach((to, from) => {
-  // Remove loading class after navigation
   setTimeout(() => {
     document.body.classList.remove('route-loading')
   }, 100)
   
-  // Update meta description
   if (to.meta.description) {
     const metaDescription = document.querySelector('meta[name="description"]')
     if (metaDescription) {

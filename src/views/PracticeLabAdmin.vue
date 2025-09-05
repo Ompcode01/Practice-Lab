@@ -195,8 +195,12 @@ import "./style.css"
 
 <script setup>
 import { ref, reactive, onMounted, nextTick } from 'vue'
+import { useRouter } from 'vue-router'
 import Header from '../components/Header.vue'
 import Footer from '../components/Footer.vue'
+
+// Router instance
+const router = useRouter()
 
 // Reactive state
 const loadingStates = reactive({
@@ -246,8 +250,26 @@ const handleCardClick = async (section) => {
     llm_instructions: 'Automation Control Panel'
   }
 
+  // Route mapping for navigation
+  const routeMap = {
+    categories: '/categories',
+    subjects: '/subjects',
+    roles: '/roles',
+    chapters: '/chapters',
+    content: '/content-management',
+    answers: '/answers',
+    llm_instructions: '/llm_instructions'
+  }
+
   await simulateLoading(section)
   showNotification(`🚀 Launching ${sectionNames[section]}...`)
+  
+  // Navigate to the corresponding route
+  if (routeMap[section]) {
+    setTimeout(() => {
+      router.push(routeMap[section])
+    }, 1000) // Navigate after 1 second to show the loading effect
+  }
 }
 
 const handleQuickAction = async (action) => {
@@ -263,10 +285,24 @@ const handleQuickAction = async (action) => {
     'llm-instructions': 'AI Configuration Center'
   }
 
+  // Route mapping for quick actions
+  const quickRouteMap = {
+    'manage-content': '/content-management',
+    'manage-answers': '/answers',
+    'llm-instructions': '/llm-instructions'
+  }
+
   const loadingKey = actionMap[action]
   if (loadingKey) {
     await simulateLoading(loadingKey)
     showNotification(`✨ Opening ${actionNames[action]}...`)
+    
+    // Navigate to the corresponding route
+    if (quickRouteMap[action]) {
+      setTimeout(() => {
+        router.push(quickRouteMap[action])
+      }, 1000) // Navigate after 1 second to show the loading effect
+    }
   }
 }
 
